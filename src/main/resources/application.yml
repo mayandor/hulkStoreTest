@@ -1,0 +1,10 @@
+port: 8050
+spring:
+  application:
+    name: hulkStore
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/hulkstore
+    username: postgres
+    password: 123
+
