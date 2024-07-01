@@ -14,13 +14,6 @@ pipeline {
             }
         }
 
-        stage('Build') {
-            steps {
-                // Construye la aplicación usando Maven
-                sh 'mvn clean package -DskipTests'
-            }
-        }
-
         stage('Build Docker Image') {
             steps {
                 script {
