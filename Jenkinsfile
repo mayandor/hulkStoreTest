@@ -1,44 +1,36 @@
 pipeline {
-    agent any
-
     environment {
-        DOCKER_IMAGE = 'softumxpartan/hulkstore:latest'
-        DOCKER_CREDENTIALS_ID = 'Beg54inext#'
+        IMAGEN = "softumxpartan/hulkstore"
+        USUARIO = 'USER_DOCKERHUB'
     }
-
+    agent any
     stages {
-        stage('Checkout') {
+        stage('Clone') {
             steps {
-                // Chequea el código fuente desde el repositorio
-                checkout scm
+                git branch: "master", url: 'https://github.com/mayandor/hulkStoreTest.git'
             }
         }
-
-        stage('Build Docker Image') {
+        stage('Build') {
             steps {
                 script {
-                    dockerImage = docker.build("${DOCKER_IMAGE}:${env.BUILD_ID}")
+                    newApp = docker.build "$IMAGEN:$BUILD_NUMBER"
                 }
             }
         }
 
-        stage('Push Docker Image') {
+        stage('Deploy') {
             steps {
                 script {
-                    docker.withRegistry('https://index.docker.io/v1/', "${DOCKER_CREDENTIALS_ID}") {
-                        dockerImage.push()
-                        dockerImage.push('latest')
+                    docker.withRegistry( '', USUARIO ) {
+                        newApp.push()
                     }
                 }
             }
         }
+        stage('Clean Up') {
+            steps {
+                sh "docker rmi $IMAGEN:$BUILD_NUMBER"
+                }
+        }
     }
-
-//     post {
-//         always {
-//             // Limpia las imágenes de Docker locales para liberar espacio
-//             sh 'docker rmi ${DOCKER_IMAGE}:${env.BUILD_ID} || true'
-//             sh 'docker rmi ${DOCKER_IMAGE}:latest || true'
-//         }
-//     }
 }
