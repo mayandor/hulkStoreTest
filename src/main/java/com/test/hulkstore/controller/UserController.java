@@ -3,6 +3,7 @@ package com.test.hulkstore.controller;
 import com.test.hulkstore.model.Users;
 import com.test.hulkstore.service.UsersService;
 import com.test.hulkstore.utils.Utils;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,7 @@ public class UserController {
     private UsersService usersService;
 
     @PostMapping("/")
-    public ResponseEntity<String> addUsers(@RequestBody Users user) {
+    public ResponseEntity<String> addUsers(@RequestBody @Valid Users user) {
         return ResponseEntity.status(HttpStatus.CREATED).body(usersService.addUsers(user));
     }
 
