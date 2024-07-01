@@ -1,15 +1,3 @@
-// pipeline {
-//     environment {
-//         IMAGEN = "softumxpartan/hulkstore"
-//         USUARIO = 'USER_DOCKERHUB'
-//     }
-//     agent any
-//     stages {
-//         stage('Clone') {
-//             steps {
-//                 git branch: "master", url: 'https://github.com/mayandor/hulkStoreTest.git'
-//             }
-//         }
 pipeline {
     agent any
 
