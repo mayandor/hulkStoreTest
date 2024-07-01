@@ -4,13 +4,14 @@ import com.test.hulkstore.model.Paginator;
 import com.test.hulkstore.model.Product;
 import com.test.hulkstore.model.ProductList;
 import com.test.hulkstore.service.ProductService;
+import com.test.hulkstore.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/products")
+@RequestMapping(Utils.PATH_PRODUCTS)
 public class ProductController {
     @Autowired
     private ProductService productService;
@@ -24,8 +25,8 @@ public class ProductController {
 
     @GetMapping("/")
     public ResponseEntity<ProductList> getProducts(
-            @RequestParam("page") int page,
-            @RequestParam("per_page") int perPage) {
+            @RequestParam(Utils.PAGE) int page,
+            @RequestParam(Utils.PER_PAGE) int perPage) {
         return ResponseEntity.ok(productService.getProducts(new Paginator(page, perPage)));
     }
 

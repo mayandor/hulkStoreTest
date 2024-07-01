@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  db-hulkstore:
+    image: 'postgres:12.3'
+    container_name: db-hulkstore
+    environment:
+      - POSTGRES_DB=hulkstore
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=123
+    networks:
+      - default
+    ports:
+      - "5435:5432"
+
+  hulkstore:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8091:8091"
+    networks:
+      - default
+    depends_on:
+      - db-hulkstore
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db-hulkstore:5432/hulkstore
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=123
+
+networks:
+  default:
+    name: networkisb

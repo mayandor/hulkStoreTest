@@ -2,13 +2,14 @@ package com.test.hulkstore.controller;
 
 import com.test.hulkstore.model.Users;
 import com.test.hulkstore.service.UsersService;
+import com.test.hulkstore.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping(Utils.PATH_USERS)
 public class UserController {
 
     @Autowired

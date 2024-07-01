@@ -1,4 +1,5 @@
-port: 8050
+server:
+  port: 8050
 spring:
   application:
     name: hulkStore
@@ -7,4 +8,3 @@ spring:
     url: jdbc:postgresql://localhost:5432/hulkstore
     username: postgres
     password: 123
-

@@ -4,13 +4,14 @@ import com.test.hulkstore.model.MovementVM;
 import com.test.hulkstore.model.MovementVMList;
 import com.test.hulkstore.model.Paginator;
 import com.test.hulkstore.service.MovementService;
+import com.test.hulkstore.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/movement")
+@RequestMapping(Utils.PATH_MOVEMENT)
 public class MovementController {
 
     @Autowired
@@ -29,8 +30,8 @@ public class MovementController {
 
     @GetMapping("/")
     public ResponseEntity<MovementVMList> getMovements(
-            @RequestParam("page") int page,
-            @RequestParam("per_page") int perPage) {
+            @RequestParam(Utils.PAGE) int page,
+            @RequestParam(Utils.PER_PAGE) int perPage) {
         return ResponseEntity.ok(movementService.getMovements(
                 new Paginator(page, perPage)));
     }

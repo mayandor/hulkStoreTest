@@ -1,0 +1,10 @@
+server:
+  port: 8050
+spring:
+  application:
+    name: hulkStore
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://db-postgresql-nyc3-46208-do-user-16429229-0.a.db.ondigitalocean.com:25060/defaultdb
+    username: doadmin
+    password: AVNS_FBHCMl2tzIxWTErfrix
