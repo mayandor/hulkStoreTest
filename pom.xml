@@ -32,6 +32,7 @@
 		<sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 		<sonar.exclusions>
 			**/model/*,
+			**/utils/*,
 			${project.basedir}/src/test/java/com/test/hulkstore/HulkStoreApplicationTests.java
 		</sonar.exclusions>
 	</properties>

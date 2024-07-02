@@ -89,7 +89,7 @@ class ProductServiceTest {
     }
 
     @Test
-    public void getProductByIdNotFoundTest() {
+    void getProductByIdNotFoundTest() {
         Long productId = 1L;
         when(mockProductRepository.getProductById(productId)).thenReturn(null);
         assertThrows(NotFoundException.class, () -> mockProductService.getProductById(productId));
