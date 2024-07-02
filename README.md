@@ -9,6 +9,7 @@ This is an inventory management application built with Spring Boot 3 and Java 17
 - **Java 17**
 - **Spring Boot 3**
 - **Maven**
+- **PostgresSQL**
 - **JUnit** for testing
 - **SonarQube** for code quality analysis
 - **Docker** for containerization
