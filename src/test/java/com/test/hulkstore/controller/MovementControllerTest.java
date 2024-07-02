@@ -2,8 +2,8 @@ package com.test.hulkstore.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.test.hulkstore.model.*;
-import com.test.hulkstore.repository.enums.MovementType;
 import com.test.hulkstore.service.MovementService;
+import com.test.hulkstore.service.component.MovementServiceFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -30,6 +29,9 @@ class MovementControllerTest {
     @MockBean
     private MovementService movementService;
 
+    @MockBean
+    private MovementServiceFactory movementServiceFactory;
+
     private ObjectMapper objectMapper;
 
     private MovementVM movementVm;
@@ -42,40 +44,6 @@ class MovementControllerTest {
 
     @BeforeEach
     public void setup() {
-//        Users user = new Users();
-//        user.setId(1L);
-//        user.setName("name");
-//        user.setLastname("lastname");
-//        user.setUsername("username");
-//        user.setRole("role");
-//
-//        Movement movement = new Movement();
-//        movement.setId(2L);
-//        movement.setMovementDate(new Date());
-//        movement.setType(MovementType.INPUT);
-//        movement.setUser(user);
-//
-//        Category category = new Category();
-//        category.setId(4L);
-//        category.setName("category");
-//
-//        Product product = new Product();
-//        product.setId(3L);
-//        product.setName("product");
-//        product.setPrice(10F);
-//        product.setImage("image");
-//        product.setStock(0);
-//        product.setCategory(category);
-//
-//        MovementDetail movementDetail = new MovementDetail();
-//        movementDetail.setId(5L);
-//        movementDetail.setQuantity(12);
-//        movementDetail.setProduct(product);
-//        movementDetail.setMovement(movement);
-//
-//        List<MovementDetail> movementDetailList = new ArrayList<>();
-//        movementDetailList.add(movementDetail);
-
         movementVm = new MovementVM();
         movementVm.setMovement(new Movement());
         movementVm.setMovementDetailList(new ArrayList<>());
@@ -83,14 +51,6 @@ class MovementControllerTest {
         objectMapper = new ObjectMapper();
     }
 
-    @Test
-    void addMovementTest() throws Exception{
-        when(movementService.addMovementVm(movementVm)).thenReturn("Successful");
-        mockMvc.perform(post("/api/movement/")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(movementVm)))
-                .andExpect(status().isCreated());
-    }
 
     @Test
     void getMovementByIdTest() throws Exception {

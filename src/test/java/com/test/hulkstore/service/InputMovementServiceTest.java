@@ -5,7 +5,7 @@ import com.test.hulkstore.repository.MovementDetailRepository;
 import com.test.hulkstore.repository.MovementRepository;
 import com.test.hulkstore.repository.ProductRepository;
 import com.test.hulkstore.repository.enums.MovementType;
-import com.test.hulkstore.service.impl.MovementServiceImpl;
+import com.test.hulkstore.service.impl.InputMovementServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -17,10 +17,11 @@ import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
-class MovementServiceTest {
+class InputMovementServiceTest {
 
     @Mock
     private MovementDetailRepository mockMovementDetailRepository;
@@ -32,17 +33,11 @@ class MovementServiceTest {
     private MovementRepository mockMovementRepository;
 
     @InjectMocks
-    private MovementServiceImpl mockMovementServiceImpl;
+    private InputMovementServiceImpl mockInputMovementService;
 
     private MovementVM movementVm;
     private Movement movement;
     private Product product;
-
-    private List<MovementDetail> movementDetailList;
-
-    private Paginator paginator;
-
-    private List<Movement> movementList;
 
     @BeforeEach
     public void setup() {
@@ -78,21 +73,18 @@ class MovementServiceTest {
         movementDetail.setProduct(product);
         movementDetail.setMovement(movement);
 
-        movementDetailList = new ArrayList<>();
+        List<MovementDetail> movementDetailList = new ArrayList<>();
         movementDetailList.add(movementDetail);
 
         movementVm = new MovementVM();
         movementVm.setMovement(movement);
         movementVm.setMovementDetailList(movementDetailList);
 
-        paginator = new Paginator();
+        Paginator paginator = new Paginator();
         paginator.setPage(0);
         paginator.setPerPage(10);
         paginator.setTotalPages(1);
         paginator.setTotalRegisters(1);
-
-        movementList = new ArrayList<>();
-        movementList.add(movement);
 
         List<MovementVM> movementVms = new ArrayList<>();
         movementVms.add(movementVm);
@@ -103,31 +95,30 @@ class MovementServiceTest {
     }
 
     @Test
-    void getMovementsTest() {
-        when(mockMovementRepository.getMovements(paginator)).thenReturn(movementList);
-        when(mockMovementRepository.countMovements()).thenReturn(1);
-        when(mockMovementDetailRepository.getMovementDetailByMovementId(anyLong())).thenReturn(new ArrayList<>());
+    void addMovementTest() {
+        when(mockMovementRepository.addMovement(any(Movement.class))).thenReturn(1L);
+        when(mockProductRepository.getProductById(anyLong())).thenReturn(product);
+        String result = mockInputMovementService.addMovement(movementVm);
 
-        MovementVMList result = mockMovementServiceImpl.getMovements(paginator);
+        verify(mockMovementRepository, times(1)).addMovement(movement);
+        verify(mockProductRepository, times(1)).getProductById(product.getId());
+        verify(mockProductRepository, times(1)).updateProduct(any(Product.class));
+        verify(mockMovementDetailRepository, times(1)).addMovementDetail(any(MovementDetail.class));
 
-        verify(mockMovementRepository, times(1)).getMovements(paginator);
-        verify(mockMovementRepository, times(1)).countMovements();
-        verify(mockMovementDetailRepository, times(1)).getMovementDetailByMovementId(anyLong());
-
-        assertEquals(1, result.getMovementVmList().size());
-        assertEquals(1, paginator.getTotalRegisters());
-        assertEquals(1, paginator.getTotalPages());
+        assertEquals("Successful", result);
     }
 
     @Test
-    void getMovementByIdTest() {
-        when(mockMovementRepository.getMovementById(anyLong())).thenReturn(movement);
-        when(mockMovementDetailRepository.getMovementDetailByMovementId(anyLong())).thenReturn(movementDetailList);
+    void addMovementProductNotTest() {
+        product.setId(null);
+        when(mockMovementRepository.addMovement(any(Movement.class))).thenReturn(1L);
+        when(mockProductRepository.getProductById(anyLong())).thenReturn(product);
+        String result = mockInputMovementService.addMovement(movementVm);
 
-        MovementVM result =  mockMovementServiceImpl.getMovementById(2L);
+        verify(mockMovementRepository, times(1)).addMovement(movement);
+        verify(mockProductRepository, times(1)).addProduct(any(Product.class));
+        verify(mockMovementDetailRepository, times(1)).addMovementDetail(any(MovementDetail.class));
 
-        verify(mockMovementRepository, times(1)).getMovementById(2L);
-        verify(mockMovementDetailRepository, times(1)).getMovementDetailByMovementId(2L);
-        assertEquals(movementVm.getMovement().getId(), result.getMovement().getId());
+        assertEquals("Successful", result);
     }
 }

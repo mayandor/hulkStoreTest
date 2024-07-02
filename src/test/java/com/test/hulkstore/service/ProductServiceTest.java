@@ -1,5 +1,6 @@
 package com.test.hulkstore.service;
 
+import com.test.hulkstore.exceptions.NotFoundException;
 import com.test.hulkstore.model.Category;
 import com.test.hulkstore.model.Paginator;
 import com.test.hulkstore.model.Product;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
@@ -84,6 +86,13 @@ class ProductServiceTest {
         when(mockProductRepository.getProductById(anyLong())).thenReturn(product);
         Product result = mockProductService.getProductById(1L);
         assertEquals(result, product);
+    }
+
+    @Test
+    public void getProductByIdNotFoundTest() {
+        Long productId = 1L;
+        when(mockProductRepository.getProductById(productId)).thenReturn(null);
+        assertThrows(NotFoundException.class, () -> mockProductService.getProductById(productId));
     }
 
     @Test

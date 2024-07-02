@@ -4,6 +4,8 @@ import com.test.hulkstore.model.MovementVM;
 import com.test.hulkstore.model.MovementVMList;
 import com.test.hulkstore.model.Paginator;
 import com.test.hulkstore.service.MovementService;
+import com.test.hulkstore.service.TypeMovementService;
+import com.test.hulkstore.service.component.MovementServiceFactory;
 import com.test.hulkstore.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,10 +19,14 @@ public class MovementController {
     @Autowired
     private MovementService movementService;
 
+    @Autowired
+    private MovementServiceFactory movementServiceFactory;
+
     @PostMapping("/")
     public ResponseEntity<String> addMovement(@RequestBody MovementVM movementVm) {
+        TypeMovementService typeMovementService = movementServiceFactory.getService(movementVm.getMovement().getType());
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(movementService.addMovementVm(movementVm));
+                .body(typeMovementService.addMovement(movementVm));
     }
 
     @GetMapping("/{id}")
