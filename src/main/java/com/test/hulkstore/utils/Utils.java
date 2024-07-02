@@ -9,5 +9,9 @@ public class Utils {
     public static final String PAGE="page";
     public static final String PER_PAGE="per_page";
 
+    public static final String NAME_REGEX="^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\\s]+$";
+
+    public static final String USERNAME_REGEX="^[a-zA-Z0-9áéíúÁÉÍÓÚñÑ@.\\-_]+$";
+
     private Utils() {}
 }
