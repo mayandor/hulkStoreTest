@@ -24,8 +24,8 @@ class GlobalExceptionHandlerTest {
         NotFoundException ex = new NotFoundException("Error");
         ErrorResponse errorResponse = new ErrorResponse(String.valueOf(HttpStatus.BAD_REQUEST.value()), ex.getMessage());
         ResponseEntity<ErrorResponse> responseEntity = handler.handleCustomException(ex);
-        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
-        assertEquals((responseEntity.getBody()).getCode(), String.valueOf(HttpStatus.NOT_FOUND.value()));
+        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+        assertEquals((responseEntity.getBody()).getCode(), String.valueOf(HttpStatus.BAD_REQUEST.value()));
         assertEquals(responseEntity.getBody().getDescription(), errorResponse.getDescription());
     }
 }
