@@ -40,6 +40,7 @@ This is an inventory management application built with Spring Boot 3 and Java 17
 
    ```bash
     mvn clean verify sonar:sonar \   -Dsonar.projectKey=hulkstore \   -Dsonar.projectName='hulkstore' \   -Dsonar.host.url=http://localhost:9000 \  -Dsonar.token=sqp_3f7a8d03b30913f4f87225a3144131de0e01acf0
+    mvn clean verify sonar:sonar \   -Dsonar.projectKey=hulkstore \   -Dsonar.projectName='hulkstore' \   -Dsonar.host.url=http://localhost:9000 \   -Dsonar.token=sqp_5f2e784d8a683a9c806cfcbdc445db187a0c6384 \ -Dsonar.login=admin \ -Dsonar.password=123
 ```
 
 ### Running with Docker
